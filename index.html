@@ -2,425 +2,641 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0c0b12">
-<title>NOCTAVE 5.0 — YouTube Music Search</title>
+<meta name="theme-color" content="#0b0911">
+<title>NOCTAVE 6.0 — Music Beyond Limits</title>
 <style>
 :root{
- --bg:#0c0b12;--panel:#17141f;--panel2:#231d30;
- --purple:#b88bff;--text:#fbf8ff;--muted:#9e97ad;
- --border:#ffffff16;
+ --bg:#0b0911;--side:#100e19;--panel:#191522;
+ --panel2:#261e34;--txt:#faf7ff;--muted:#a29aac;
+ --accent:#b68bff;--line:#ffffff17;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
- font-family:system-ui,-apple-system,Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,Arial,sans-serif}
 button,input{font:inherit}
 button{cursor:pointer}
-button:focus-visible,input:focus-visible{outline:2px solid var(--purple)}
 button{border:0;color:inherit}
-.layout{display:grid;grid-template-columns:225px minmax(0,1fr);min-height:100vh}
-aside{background:#121018;border-right:1px solid var(--border);padding:28px 16px}
-.logo{font-weight:950;font-size:25px;letter-spacing:-1.5px;margin:0 10px 38px}
-.logo span{color:var(--purple)}
-.label{color:#817b8f;font-size:10px;font-weight:800;letter-spacing:2px;margin:26px 12px 12px}
-.nav{display:block;width:100%;background:transparent;text-align:left;padding:14px;border-radius:12px;color:#bab3c5;margin:5px 0}
-.nav:hover,.nav.active{background:#af81ff21;color:white}
-.sidebox{margin-top:38px;padding:18px;border-radius:17px;background:linear-gradient(140deg,#4d2e79,#24182e)}
-.sidebox b{font-size:17px}
-.sidebox p{font-size:12px;color:#d8c7e8;line-height:1.65}
-main{padding:26px clamp(15px,4vw,50px);min-width:0}
-.top{display:flex;gap:10px;margin-bottom:24px}
-.search{display:flex;align-items:center;gap:10px;background:#1d1928;border:1px solid var(--border);border-radius:14px;padding:0 16px;flex:1;min-width:0}
-.search input{background:none;border:0;outline:0;color:white;padding:15px 0;width:100%;min-width:0}
-.primary{background:var(--purple);color:#1c102c;font-weight:850;border-radius:12px;padding:12px 19px}
-.hero{padding:34px;border-radius:24px;background:radial-gradient(circle at 82% 30%,#9562dc 0%,transparent 40%),linear-gradient(115deg,#402457,#1b1425);position:relative;overflow:hidden}
-.hero:after{content:"♪";position:absolute;right:8%;top:-75px;color:#ffffff16;font-size:300px;pointer-events:none}
-.hero small{font-weight:900;letter-spacing:2px;font-size:11px;color:#d5b8ff}
-.hero h1{font-size:clamp(36px,5vw,62px);letter-spacing:-2.5px;line-height:1;margin:15px 0}
-.hero em{font-style:normal;color:#d3b5ff}
-.hero p{max-width:470px;font-size:13px;line-height:1.7;color:#ddd0e8}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent)}
+a{color:#d7bfff}
+.app{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh;padding-bottom:112px}
+aside{background:var(--side);padding:26px 15px;border-right:1px solid var(--line)}
+.brand{font-size:25px;font-weight:950;letter-spacing:-1.5px;margin:4px 10px 42px}
+.brand span{color:var(--accent)}
+.nav{display:block;background:transparent;width:100%;text-align:left;padding:14px;border-radius:12px;color:#b3aabd;margin:4px 0}
+.nav:hover,.nav.active{background:#af83ff20;color:white}
+.sidebox{margin-top:40px;background:linear-gradient(135deg,#573488,#1d182a);border-radius:18px;padding:17px}
+.sidebox p{font-size:12px;color:#d5c7e5;line-height:1.6}
+main{padding:25px clamp(16px,3.8vw,52px);min-width:0}
+.searchbar{display:flex;gap:10px;margin-bottom:23px}
+.search{display:flex;align-items:center;flex:1;gap:10px;background:#1e1928;border:1px solid var(--line);padding:0 15px;border-radius:13px;min-width:0}
+.search input{background:none;color:white;border:0;outline:none;width:100%;padding:15px 0;min-width:0}
+.primary{background:var(--accent);color:#180d2a;padding:12px 17px;border-radius:12px;font-weight:850}
+.hero{background:radial-gradient(circle at 84% 27%,#ac76ef88,transparent 35%),linear-gradient(110deg,#41265b,#1b1525);padding:35px;border-radius:25px;position:relative;overflow:hidden}
+.hero:after{content:"♪";font-size:300px;position:absolute;right:7%;top:-77px;color:#ffffff13;pointer-events:none}
+.hero small{color:#dfc5ff;font-size:10px;letter-spacing:2.5px;font-weight:900}
+.hero h1{font-size:clamp(37px,5vw,62px);letter-spacing:-2.7px;line-height:1;margin:15px 0}
+.hero h1 em{font-style:normal;color:#d6baff}
+.hero p{font-size:13px;color:#e1d4ee;max-width:450px;line-height:1.8}
+h2{font-size:22px;letter-spacing:-.6px;margin:0}
 .heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:30px 0 16px}
-h2{font-size:23px;letter-spacing:-.7px;margin:0}
-.muted{font-size:12px;color:var(--muted)}
-.genres{display:flex;gap:9px;overflow-x:auto;padding-bottom:10px}
-.genre{background:#261e33;color:#d7cbe5;border:1px solid var(--border);padding:10px 17px;border-radius:30px;white-space:nowrap}
-.genre:hover,.genre.active{background:var(--purple);color:#1a1027}
-.status{display:flex;align-items:center;gap:8px;color:#a8a0ba;font-size:12px;margin:15px 0;flex-wrap:wrap}
-.dot{height:8px;width:8px;background:#a58bda;border-radius:50%}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:15px}
-.card{background:#191620;border:1px solid var(--border);padding:11px;border-radius:17px;min-width:0;transition:.2s}
-.card:hover{transform:translateY(-3px);background:#25202d}
-.thumb{width:100%;aspect-ratio:16/10;background:#3d3051;border-radius:12px;object-fit:cover}
-.card b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;font-size:13px;line-height:1.45;min-height:38px;margin:11px 0 7px}
-.card p{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.badge{font-size:10px;color:#d6bdff;background:#a77bf822;padding:5px 7px;border-radius:6px;display:inline-block;margin-bottom:10px}
-.actions{display:flex;gap:8px}
-.actions button,.actions a{flex:1;text-align:center;text-decoration:none;background:#32273e;color:white;border-radius:9px;padding:10px 8px;font-size:12px}
-.actions .watch{background:#ae81ff;color:#1b102a;font-weight:850}
-.empty{grid-column:1/-1;padding:45px 18px;text-align:center;border:1px dashed #ffffff25;border-radius:17px;color:var(--muted);line-height:1.8}
-.empty a{color:#d6b8ff}
-.playerPanel{margin-top:26px;padding:18px;background:#181420;border:1px solid var(--border);border-radius:19px}
-.playerHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
-.playerHead b{font-size:14px}
-.playerHead small{color:var(--muted)}
-.video{width:100%;aspect-ratio:16/9;border:0;border-radius:13px;background:#000;display:block}
-.notice{position:fixed;right:17px;bottom:20px;background:#36254b;color:white;padding:13px 18px;border-radius:12px;display:none;z-index:20;font-size:12px}
+.hint{font-size:12px;color:var(--muted)}
+.genres,.tabs{display:flex;gap:9px;overflow-x:auto;padding-bottom:10px;scrollbar-width:thin}
+.chip{padding:10px 16px;background:#251e30;color:#d4cadf;border-radius:30px;white-space:nowrap;border:1px solid var(--line)}
+.chip:hover,.chip.active{background:var(--accent);color:#180e27}
+.tabs{margin:15px 0 20px}
+.tab{padding:10px 14px;border-radius:11px;background:#211c2c;color:#c6bace;white-space:nowrap}
+.tab.active{background:#a77cf433;color:#e5d2ff;border:1px solid #ae87ff66}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px}
+.card{background:#191521;border:1px solid var(--line);border-radius:18px;padding:11px;min-width:0;transition:.2s}
+.card:hover{background:#272035;transform:translateY(-3px)}
+.cover{aspect-ratio:1;width:100%;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#7950ae,#30223f);display:grid;place-items:center;font-size:58px}
+.cover img{height:100%;width:100%;object-fit:cover}
+.card b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:12px 0 5px;font-size:13px}
+.card p{color:var(--muted);font-size:11px;margin:0 0 11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{color:#d8baff;background:#b18aff20;border-radius:6px;padding:5px 7px;font-size:9px;display:inline-block;margin-bottom:10px;font-weight:900;letter-spacing:.5px}
+.actions{display:flex;gap:7px}
+.actions button{padding:10px;border-radius:9px;background:#332a41}
+.actions .listen{flex:1;background:#ab83fa;color:#1a0d29;font-weight:850}
+.empty{grid-column:1/-1;text-align:center;padding:42px 20px;border:1px dashed #ffffff24;border-radius:17px;color:var(--muted);line-height:1.8}
+.panel{background:#191522;border:1px solid var(--line);border-radius:19px;padding:22px;margin-top:20px}
+.panel p{font-size:13px;color:var(--muted);line-height:1.7}
+.inputrow{display:flex;gap:9px;margin:16px 0}
+.inputrow input{min-width:0;flex:1;background:#292136;color:white;padding:13px;border:1px solid var(--line);border-radius:11px}
+.sciframe{width:100%;height:166px;border:0;border-radius:11px;background:#fff}
+.player{position:fixed;bottom:0;left:0;right:0;z-index:10;background:#181320f2;backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:13px 25px;display:grid;grid-template-columns:1fr 1.5fr 1fr;align-items:center;gap:18px}
+.now{display:flex;align-items:center;gap:12px;min-width:0}
+.nowcover{width:53px;height:53px;flex-shrink:0;background:#553477;border-radius:12px;display:grid;place-items:center;overflow:hidden}
+.nowcover img{width:100%;height:100%;object-fit:cover}
+.nowtext{min-width:0}
+.nowtext b,.nowtext small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nowtext b{font-size:13px}
+.nowtext small{font-size:11px;color:var(--muted);margin-top:4px}
+.middle{text-align:center}
+.buttons{display:flex;justify-content:center;align-items:center;gap:16px}
+.buttons button{background:none;font-size:19px}
+.buttons #play{background:var(--accent);color:#170d22;width:39px;height:39px;border-radius:50%;font-weight:900}
+.timeline{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:10px;margin-top:8px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.volume{display:flex;align-items:center;justify-content:flex-end;gap:9px}
+.volume input{max-width:110px}
+.toast{position:fixed;bottom:119px;right:20px;background:#3d2955;padding:14px 18px;border-radius:12px;display:none;z-index:20;font-size:12px}
 [hidden]{display:none!important}
-@media(max-width:750px){
- .layout{display:block;padding-bottom:67px}
- aside{position:fixed;bottom:0;left:0;right:0;height:63px;z-index:10;padding:4px;background:#15111d;border-top:1px solid var(--border)}
- .logo,.label,.sidebox{display:none}
- nav{display:flex;justify-content:space-around;height:100%;align-items:center}
- .nav{width:auto;font-size:11px;padding:12px 9px;margin:0}
- main{padding:17px}
- .top .primary{padding:12px}
- .hero{padding:26px}
- .hero:after{font-size:180px;top:-20px;right:-10px}
+@media(max-width:730px){
+ .app{display:block;padding-bottom:160px}
+ aside{position:fixed;bottom:0;left:0;right:0;height:64px;z-index:13;padding:3px;border-top:1px solid var(--line)}
+ .brand,.sidebox{display:none}
+ nav{display:flex;justify-content:space-around;align-items:center;height:100%}
+ .nav{font-size:11px;width:auto;padding:12px 6px;margin:0;text-align:center}
+ main{padding:16px}
+ .hero{padding:25px}
+ .hero:after{font-size:170px;top:0;right:-20px}
  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
  .card{padding:9px}
- .playerPanel{padding:11px}
- .notice{bottom:77px;left:15px;right:15px}
+ .player{bottom:64px;grid-template-columns:1fr auto;padding:10px 13px;border-radius:15px 15px 0 0;gap:8px}
+ .middle{display:flex}
+ .buttons{gap:9px}
+ .timeline,.volume{display:none}
+ .inputrow{flex-wrap:wrap}
+ .inputrow input{flex-basis:100%}
+ .toast{bottom:157px;left:15px;right:15px}
 }
 </style>
 </head>
 <body>
-<div class="layout">
+<div class="app">
 <aside>
- <div class="logo">◈ NOCT<span>AVE</span></div>
+ <div class="brand">◈ NOCT<span>AVE</span></div>
  <nav>
-  <button class="nav active" data-tab="search">⌕ Descobrir</button>
-  <button class="nav" data-tab="fav">♡ Favoritos</button>
-  <button class="nav" data-tab="history">◷ Histórico</button>
+  <button class="nav active" data-view="discover">⌕ Descobrir</button>
+  <button class="nav" data-view="library">♫ Biblioteca</button>
+  <button class="nav" data-view="favorites">♡ Favoritos</button>
+  <button class="nav" data-view="soundcloud">☁ SoundCloud</button>
+  <button class="nav" id="importNav">＋ Importar</button>
  </nav>
  <div class="sidebox">
-  <b>Encontre seu som.</b>
-  <p>Busca em instâncias públicas e reprodução no YouTube oficial.</p>
+  <b>Music is freedom.</b>
+  <p>Suas faixas, estações e links públicos em um só lugar.</p>
  </div>
 </aside>
 <main>
- <div class="top">
+ <div class="searchbar">
   <label class="search">⌕
-   <input id="query" placeholder="Música, artista, funk, rap, montagem..." value="montagem tomada">
+   <input id="query" placeholder="Buscar áudio, rádio, funk, rap..." autocomplete="off">
   </label>
   <button class="primary" id="searchBtn">Buscar</button>
  </div>
+
  <section class="hero">
-  <small>✦ NOCTAVE 5.0 / YOUTUBE DISCOVERY</small>
-  <h1>Find your<br><em>frequency.</em></h1>
-  <p>Milhões de vídeos para descobrir. Pesquise músicas e assista pelo player oficial do YouTube.</p>
+  <small>✦ NOCTAVE 6.0 / MUSIC UNIVERSE</small>
+  <h1>All your sound.<br><em>One place.</em></h1>
+  <p>Rádios ao vivo, músicas abertas, SoundCloud e sua biblioteca pessoal.</p>
+  <button class="primary" id="importHero">＋ Importar músicas</button>
  </section>
 
- <div class="heading"><h2>Explore seu ritmo</h2></div>
- <div class="genres" id="genres"></div>
- <div class="heading">
-  <h2 id="heading">Resultados musicais</h2>
-  <small class="muted" id="count"></small>
- </div>
- <div class="status"><span class="dot"></span><span id="apiStatus">Preparando pesquisa...</span></div>
- <div id="grid" class="grid"></div>
-
- <section id="playerPanel" class="playerPanel" hidden>
-  <div class="playerHead">
-   <div>
-    <b id="nowTitle">Vídeo selecionado</b>
-    <div><small id="nowChannel"></small></div>
-   </div>
-   <button id="closePlayer" class="primary">Fechar</button>
+ <section id="musicArea">
+  <div class="heading">
+   <h2>Escolha sua vibe</h2>
+   <span class="hint">Explorar gêneros</span>
   </div>
-  <iframe id="youtubePlayer" class="video"
-    title="Reprodutor oficial do YouTube"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    allowfullscreen
-    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <div class="genres" id="genres"></div>
+  <div class="heading">
+   <h2 id="heading">Descubra novos sons</h2>
+   <span class="hint" id="count"></span>
+  </div>
+  <div class="tabs" id="tabs">
+   <button class="tab active" data-source="radio">◉ Rádios ao vivo</button>
+   <button class="tab" data-source="commons">♫ Áudios abertos</button>
+  </div>
+  <div class="grid" id="grid"></div>
+ </section>
+
+ <section id="soundcloudArea" hidden>
+  <div class="heading"><h2>SoundCloud Player</h2></div>
+  <div class="panel">
+   <h2>☁ Reproduza no SoundCloud</h2>
+   <p>Cole o endereço de uma música ou playlist pública do SoundCloud.
+   O player oficial aparecerá aqui, dentro do NOCTAVE.</p>
+   <div class="inputrow">
+    <input id="scLink" placeholder="https://soundcloud.com/artista/faixa">
+    <button class="primary" id="loadSC">Carregar</button>
+   </div>
+   <div id="scContainer"></div>
+   <p>Ou pesquise diretamente no catálogo oficial:</p>
+   <div class="inputrow">
+    <input id="scSearch" placeholder="Ex.: funk montagem tomada">
+    <button class="primary" id="openSC">Pesquisar</button>
+   </div>
+   <p id="scInfo"></p>
+  </div>
  </section>
 </main>
 </div>
-<div id="toast" class="notice" role="status"></div>
 
+<footer class="player">
+ <div class="now">
+  <div class="nowcover" id="nowCover">♫</div>
+  <div class="nowtext">
+   <b id="nowTitle">Nenhuma faixa</b>
+   <small id="nowArtist">Seu player está pronto</small>
+  </div>
+ </div>
+ <div class="middle">
+  <div class="buttons">
+   <button id="prev" title="Anterior">⏮</button>
+   <button id="play" title="Reproduzir">▶</button>
+   <button id="next" title="Próxima">⏭</button>
+  </div>
+  <div class="timeline">
+   <span id="elapsed">0:00</span>
+   <input id="seek" type="range" min="0" max="100" value="0">
+   <span id="duration">0:00</span>
+  </div>
+ </div>
+ <div class="volume">♫ <input id="volume" type="range" min="0" max="100" value="80"></div>
+</footer>
+
+<audio id="audio" preload="metadata"></audio>
+<input id="files" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.flac" multiple hidden>
+<div id="toast" class="toast" role="status"></div>
 <script>
 "use strict";
 const $=s=>document.querySelector(s);
-const genres=[
- "Funk","Montagem","Funk automotivo","Rap","Trap",
- "Phonk","Hip-Hop","Sertanejo","Pop","Rock",
- "Pagode","Gospel","Eletrônica","Lo-fi"
-];
+const audio=$("#audio");
+const GENRES=["Funk","Montagem","Rap","Trap","Phonk","Hip-Hop",
+"Sertanejo","Pop","Rock","Eletrônica","Pagode","Gospel","Lo-fi"];
+let view="discover",source="radio",results=[],local=[],favs=[];
+let db=null,current=null,queue=[],position=0,objectURL=null;
+let requestId=0,toastTimer,scWidget=null;
 
-// Instâncias públicas. Nenhuma disponibilidade é garantida.
-const SOURCES=[
- {name:"Invidious Nadeko",type:"invidious",base:"https://inv.nadeko.net"},
- {name:"Invidious NerdVPN",type:"invidious",base:"https://invidious.nerdvpn.de"},
- {name:"Invidious Tiekoetter",type:"invidious",base:"https://invidious.tiekoetter.com"},
- {name:"Piped Kavin",type:"piped",base:"https://pipedapi.kavin.rocks"},
- {name:"Piped Leptons",type:"piped",base:"https://pipedapi.leptons.xyz"},
- {name:"Piped Nosebs",type:"piped",base:"https://pipedapi.nosebs.ru"}
-];
-
-let tab="search",results=[],requestNo=0;
-const cache=new Map();
-const unavailable=new Map();
-const CACHE_TIME=10*60*1000;
-const RETRY_AFTER=5*60*1000;
-let noticeTimer;
-
-function notify(text){
- $("#toast").textContent=text;
+function toast(msg){
+ $("#toast").textContent=msg;
  $("#toast").style.display="block";
- clearTimeout(noticeTimer);
- noticeTimer=setTimeout(()=>$("#toast").style.display="none",3800);
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>$("#toast").style.display="none",3500);
 }
-function element(tag,cls,text){
- const e=document.createElement(tag);
- if(cls)e.className=cls;
- if(text!==undefined)e.textContent=text;
- return e;
+function el(tag,cls,text){
+ const n=document.createElement(tag);
+ if(cls)n.className=cls;
+ if(text!==undefined)n.textContent=text;
+ return n;
 }
-function youtubeURL(id){
- return "https://www.youtube.com/watch?v="+encodeURIComponent(id);
+function stamp(v){
+ if(!Number.isFinite(v))return "LIVE";
+ return Math.floor(v/60)+":"+String(Math.floor(v%60)).padStart(2,"0");
 }
-function validId(id){
- return typeof id==="string"&&/^[A-Za-z0-9_-]{11}$/.test(id);
-}
-function readLocal(key){
- try{return JSON.parse(localStorage.getItem(key)||"[]")}catch(e){return []}
-}
-function writeLocal(key,data){
- try{localStorage.setItem(key,JSON.stringify(data))}catch(e){notify("Armazenamento local indisponível.")}
-}
-function unique(items){
- const seen=new Set();
- return items.filter(x=>{
-  if(!validId(x.id)||seen.has(x.id))return false;
-  seen.add(x.id);return true;
- });
-}
-function youtubeId(url){
- try{
-  const u=new URL(url,"https://www.youtube.com");
-  return u.searchParams.get("v")||u.pathname.match(/\/shorts\/([^/]+)/)?.[1]||
-    u.pathname.match(/\/watch\/([^/]+)/)?.[1]||
-    u.pathname.match(/\/([^/]+)$/)?.[1];
- }catch(e){return null}
-}
-function normalizeInvidious(data){
- return (Array.isArray(data)?data:[]).filter(x=>x.type==="video"&&validId(x.videoId)).map(x=>({
-  id:x.videoId,title:x.title||"Vídeo sem título",
-  channel:x.author||"Canal",duration:x.lengthSeconds||0,
-  thumbnail:"https://i.ytimg.com/vi/"+x.videoId+"/hqdefault.jpg"
- }));
-}
-function normalizePiped(data){
- return (data.items||[]).map(x=>{
-  const id=youtubeId(x.url||"");
-  return {
-   id,title:x.title||"Vídeo sem título",
-   channel:x.uploaderName||x.uploader||"Canal",
-   duration:x.duration||0,
-   thumbnail:validId(id)?"https://i.ytimg.com/vi/"+id+"/hqdefault.jpg":""
-  };
- }).filter(x=>validId(x.id));
-}
-async function requestJSON(url,ms=6500){
- const controller=new AbortController();
- const t=setTimeout(()=>controller.abort(),ms);
- try{
-  const response=await fetch(url,{
-   method:"GET",signal:controller.signal,
-   headers:{"Accept":"application/json"}
-  });
-  if(response.status===429){
-   const err=new Error("Limite de requisições da instância");
-   err.rateLimited=true;
-   throw err;
-  }
-  if(!response.ok)throw Error("HTTP "+response.status);
-  return response.json();
- }finally{clearTimeout(t)}
-}
-async function searchSource(source,term){
- const skipUntil=unavailable.get(source.base)||0;
- if(Date.now()<skipUntil)throw Error("Instância em intervalo de recuperação");
- let url;
- if(source.type==="invidious"){
-  url=source.base+"/api/v1/search?q="+encodeURIComponent(term)+"&type=video";
- }else{
-  url=source.base+"/search?q="+encodeURIComponent(term)+"&filter=videos";
- }
- try{
-  const data=await requestJSON(url);
-  const items=source.type==="invidious"?
-    normalizeInvidious(data):normalizePiped(data);
-  return {source:source.name,items};
- }catch(e){
-  // Respeita limites e permite recuperação depois de uma falha.
-  unavailable.set(source.base,Date.now()+RETRY_AFTER);
-  throw e;
- }
-}
-async function search(term){
- term=term.trim();
- if(!term){notify("Digite uma música ou artista.");return}
- tab="search";
- updateNav();
- $("#heading").textContent='Resultados para "'+term+'"';
- $("#apiStatus").textContent="Consultando fontes públicas...";
- $("#grid").replaceChildren(element("div","empty","Pesquisando vídeos..."));
- const token=++requestNo;
- const key=term.toLowerCase();
- const saved=cache.get(key);
- if(saved&&Date.now()-saved.at<CACHE_TIME){
-  results=saved.items;
-  render(results);
-  $("#apiStatus").textContent="Resultados em cache · "+saved.sources+" fonte(s)";
-  return;
- }
-
- // Faz uma pesquisa por vez, evitando excesso de chamadas.
- const collected=[];
- let successes=0;
- let attempted=0;
- for(const source of SOURCES){
-  if(token!==requestNo)return;
-  if(collected.length>=25)break;
-  try{
-   attempted++;
-   const answer=await searchSource(source,term);
-   successes++;
-   collected.push(...answer.items);
-   results=unique(collected);
-   render(results);
-   $("#apiStatus").textContent=
-    successes+" fonte(s) responderam · "+results.length+" vídeos";
-  }catch(e){
-   console.warn("Fonte indisponível:",source.name,e.message);
-  }
- }
- if(token!==requestNo)return;
- results=unique(collected);
- if(results.length){
-  cache.set(key,{at:Date.now(),items:results,sources:successes});
-  render(results);
-  $("#apiStatus").textContent=successes+" fonte(s) responderam · busca concluída";
- }else{
-  $("#grid").replaceChildren();
-  const empty=element("div","empty");
-  empty.append(element("div","","Nenhuma instância pública respondeu com vídeos."));
-  empty.append(element("p","","Isso pode ocorrer por CORS, instabilidade ou limite de acesso."));
-  const link=element("a","","Pesquisar diretamente no YouTube");
-  link.href="https://www.youtube.com/results?search_query="+encodeURIComponent(term);
-  link.target="_blank";
-  link.rel="noopener noreferrer";
-  empty.append(link);
-  $("#grid").append(empty);
-  $("#apiStatus").textContent=attempted+" fontes tentadas · sem resultados disponíveis";
- }
-}
-function getFavorites(){return readLocal("noctave-yt-favs")}
-function getHistory(){return readLocal("noctave-yt-history")}
-function isFavorite(item){
- return getFavorites().some(x=>x.id===item.id);
-}
-function toggleFavorite(item){
- let list=getFavorites();
- if(isFavorite(item))list=list.filter(x=>x.id!==item.id);
- else list=[item,...list].slice(0,100);
- writeLocal("noctave-yt-favs",list);
- render(tab==="fav"?list:results);
-}
-function addHistory(item){
- const old=getHistory().filter(x=>x.id!==item.id);
- writeLocal("noctave-yt-history",[item,...old].slice(0,60));
-}
-function play(item){
- if(!validId(item.id))return;
- addHistory(item);
- $("#playerPanel").hidden=false;
- $("#nowTitle").textContent=item.title;
- $("#nowChannel").textContent=item.channel;
- const url="https://www.youtube.com/embed/"+item.id+
-   "?autoplay=1&playsinline=1";
- $("#youtubePlayer").src=url;
- $("#playerPanel").scrollIntoView({behavior:"smooth",block:"start"});
-}
-function card(item){
- const div=element("article","card");
- const img=element("img","thumb");
- img.src=item.thumbnail||
-  "https://i.ytimg.com/vi/"+item.id+"/hqdefault.jpg";
- img.alt="";
- img.loading="lazy";
- img.onerror=()=>{img.style.visibility="hidden"};
- div.append(img);
- div.append(element("b","",item.title));
- div.append(element("p","",item.channel));
- div.append(element("span","badge","YOUTUBE VIDEO"));
- const actions=element("div","actions");
- const watch=element("button","watch","▶ Assistir");
- watch.onclick=()=>play(item);
- const fav=element("button","",isFavorite(item)?"♥":"♡");
- fav.title="Adicionar aos favoritos";
- fav.onclick=()=>toggleFavorite(item);
- const open=element("a","","↗ YouTube");
- open.href=youtubeURL(item.id);
- open.target="_blank";
- open.rel="noopener noreferrer";
- actions.append(watch,fav,open);
- div.append(actions);
+function cover(t,cls){
+ const div=el("div",cls);
+ if(t.image){
+  const img=el("img");
+  img.src=t.image;img.alt="";img.referrerPolicy="no-referrer";
+  img.onerror=()=>{img.remove();div.textContent="♫"};
+  div.append(img);
+ }else div.textContent="♫";
  return div;
 }
-function render(items){
- const grid=$("#grid");
- grid.replaceChildren();
- $("#count").textContent=items.length+" vídeos";
- if(!items.length){
-  grid.append(element("div","empty","Nenhum vídeo salvo nesta seção."));
-  return;
- }
- const fragment=document.createDocumentFragment();
- items.forEach(item=>fragment.append(card(item)));
- grid.append(fragment);
+async function fetchJSON(url){
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),11000);
+ try{
+  const response=await fetch(url,{signal:controller.signal});
+  if(!response.ok)throw Error("HTTP "+response.status);
+  return await response.json();
+ }finally{clearTimeout(timer)}
 }
-function updateNav(){
- document.querySelectorAll("[data-tab]").forEach(b=>
-  b.classList.toggle("active",b.dataset.tab===tab));
-}
-function setTab(value){
- requestNo++;
- tab=value;updateNav();
- if(value==="search"){
-  search($("#query").value||"funk");
- }else{
-  const items=value==="fav"?getFavorites():getHistory();
-  $("#heading").textContent=value==="fav"?"Seus favoritos":"Assistidos recentemente";
-  $("#apiStatus").textContent="Salvo neste navegador";
-  render(items);
- }
-}
-function makeGenres(){
- genres.forEach(g=>{
-  const b=element("button","genre",g);
-  b.onclick=()=>{
-   $("#query").value=g;
-   document.querySelectorAll(".genre").forEach(x=>x.classList.remove("active"));
-   b.classList.add("active");
-   search(g);
-  };
-  $("#genres").append(b);
+
+/* IndexedDB - arquivos permanecem no navegador */
+function operation(name,method,value){
+ return new Promise((resolve,reject)=>{
+  if(!db)return reject(Error("Armazenamento indisponível"));
+  const tx=db.transaction(name,method==="getAll"?"readonly":"readwrite");
+  const request=tx.objectStore(name)[method](value);
+  request.onsuccess=()=>resolve(request.result);
+  request.onerror=()=>reject(request.error);
  });
 }
-$("#searchBtn").onclick=()=>search($("#query").value);
-$("#query").addEventListener("keydown",e=>{
- if(e.key==="Enter")search(e.target.value);
+async function initDB(){
+ try{
+  db=await new Promise((resolve,reject)=>{
+   const request=indexedDB.open("noctave-6",1);
+   request.onupgradeneeded=()=>{
+    request.result.createObjectStore("songs",{keyPath:"id"});
+    request.result.createObjectStore("favorites",{keyPath:"id"});
+   };
+   request.onsuccess=()=>resolve(request.result);
+   request.onerror=()=>reject(request.error);
+  });
+  local=await operation("songs","getAll");
+  favs=await operation("favorites","getAll");
+ }catch(e){toast("Não foi possível carregar a biblioteca local.")}
+}
+function uid(){
+ return crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random();
+}
+async function importSongs(files){
+ if(!db){toast("Armazenamento indisponível.");return}
+ let count=0;
+ for(const file of files){
+  if(!file.type.startsWith("audio/")&&!/\.(mp3|wav|ogg|m4a|flac)$/i.test(file.name))continue;
+  const item={
+   id:"local:"+uid(),
+   title:file.name.replace(/\.[^.]+$/,""),
+   artist:"Meu dispositivo",
+   type:"local",image:"",blob:file
+  };
+  try{
+   await operation("songs","put",item);
+   local.push(item);count++;
+  }catch(e){
+   toast("Espaço insuficiente para salvar mais arquivos.");
+   break;
+  }
+ }
+ $("#files").value="";
+ switchView("library");
+ toast(count+" faixa(s) importada(s).");
+}
+
+/* API Radio Browser */
+async function searchRadio(term){
+ const servers=[
+  "https://de1.api.radio-browser.info",
+  "https://nl1.api.radio-browser.info"
+ ];
+ for(const base of servers){
+  try{
+   const url=new URL(base+"/json/stations/search");
+   url.searchParams.set("limit","30");
+   url.searchParams.set("hidebroken","true");
+   url.searchParams.set("order","votes");
+   url.searchParams.set("reverse","true");
+   if(term)url.searchParams.set("tag",term);
+   else url.searchParams.set("countrycode","BR");
+   const data=await fetchJSON(url);
+   return data.filter(x=>x.stationuuid&&x.name&&x.url_resolved)
+    .map(x=>({
+     id:"radio:"+x.stationuuid,
+     title:x.name,artist:x.country||"Rádio ao vivo",
+     type:"radio",image:x.favicon||"",
+     url:x.url_resolved
+    }));
+  }catch(e){console.warn("Radio Browser:",e)}
+ }
+ throw Error("Rádios indisponíveis");
+}
+
+/* API Wikimedia Commons - arquivos de áudio */
+async function searchCommons(term){
+ const params=new URLSearchParams({
+  action:"query",generator:"search",
+  gsrsearch:"filetype:audio "+(term||"music"),
+  gsrnamespace:"6",gsrlimit:"25",
+  prop:"imageinfo",iiprop:"url|mime|extmetadata",
+  iiurlwidth:"300",format:"json",origin:"*"
+ });
+ const data=await fetchJSON(
+  "https://commons.wikimedia.org/w/api.php?"+params.toString()
+ );
+ return Object.values(data.query?.pages||{})
+  .filter(p=>p.imageinfo?.[0]?.mime?.startsWith("audio/"))
+  .map(p=>{
+   const info=p.imageinfo[0];
+   return {
+    id:"commons:"+p.pageid,
+    title:p.title.replace(/^File:/,"").replace(/\.[^.]+$/,"").replace(/_/g," "),
+    artist:"Wikimedia Commons",
+    type:"commons",image:"",
+    url:info.url,
+    page:"https://commons.wikimedia.org/wiki/"+encodeURIComponent(p.title.replace(/ /g,"_"))
+   };
+  });
+}
+async function doSearch(){
+ if(view!=="discover")return;
+ const term=$("#query").value.trim();
+ const token=++requestId;
+ $("#grid").replaceChildren(el("div","empty","Procurando áudio disponível..."));
+ $("#heading").textContent=term?"Resultados: "+term:"Descubra novos sons";
+ try{
+  results=source==="radio"?await searchRadio(term):await searchCommons(term);
+  if(token!==requestId)return;
+  render();
+ }catch(e){
+  if(token!==requestId)return;
+  results=[];render();
+  toast("A fonte não respondeu. Tente novamente ou escolha outra fonte.");
+ }
+}
+
+/* Interface */
+function visibleItems(){
+ if(view==="library")return local;
+ if(view==="favorites"){
+  return favs.map(f=>f.type==="local"?local.find(t=>t.id===f.id):f).filter(Boolean);
+ }
+ return results;
+}
+function render(){
+ const items=visibleItems();
+ const root=$("#grid");root.replaceChildren();
+ $("#count").textContent=items.length+" resultado(s)";
+ if(!items.length){
+  root.append(el("div","empty",
+   view==="library"?"Nenhuma música importada ainda.":
+   "Nenhum áudio encontrado. Tente outro termo ou fonte."
+  ));
+  return;
+ }
+ const frag=document.createDocumentFragment();
+ for(const t of items){
+  const card=el("article","card");
+  card.append(cover(t,"cover"));
+  card.append(el("span","tag",({
+   radio:"◉ AO VIVO",commons:"♫ ÁUDIO ABERTO",local:"♫ MINHA MÚSICA"
+  })[t.type]));
+  card.append(el("b","",t.title));
+  card.append(el("p","",t.artist));
+  const actions=el("div","actions");
+  const btn=el("button","listen","▶ Ouvir");
+  btn.onclick=()=>{
+   const list=visibleItems();
+   start(list,list.findIndex(x=>x.id===t.id));
+  };
+  const heart=el("button","",favs.some(f=>f.id===t.id)?"♥":"♡");
+  heart.onclick=()=>toggleFav(t);
+  actions.append(btn,heart);
+  if(t.type==="local"){
+   const remove=el("button","","✕");
+   remove.title="Excluir da biblioteca";
+   remove.onclick=()=>removeSong(t);
+   actions.append(remove);
+  }
+  if(t.page){
+   const open=el("button","","↗");
+   open.title="Ver licença e atribuição";
+   open.onclick=()=>window.open(t.page,"_blank","noopener,noreferrer");
+   actions.append(open);
+  }
+  card.append(actions);
+  frag.append(card);
+ }
+ root.append(frag);
+}
+async function toggleFav(t){
+ if(!db){toast("Armazenamento indisponível.");return}
+ try{
+  if(favs.some(f=>f.id===t.id)){
+   await operation("favorites","delete",t.id);
+   favs=favs.filter(f=>f.id!==t.id);
+  }else{
+   const f={...t};delete f.blob;
+   await operation("favorites","put",f);favs.push(f);
+  }
+  render();
+ }catch(e){toast("Erro ao salvar favorito.")}
+}
+async function removeSong(t){
+ if(!db||!confirm("Excluir esta música da biblioteca?"))return;
+ await operation("songs","delete",t.id);
+ local=local.filter(x=>x.id!==t.id);
+ if(current?.id===t.id){
+  audio.pause();audio.removeAttribute("src");audio.load();
+  current=null;
+  $("#nowTitle").textContent="Nenhuma faixa";
+ }
+ render();
+}
+function switchView(value){
+ view=value;requestId++;
+ document.querySelectorAll("[data-view]").forEach(b=>
+  b.classList.toggle("active",b.dataset.view===value));
+ $("#soundcloudArea").hidden=value!=="soundcloud";
+ $("#musicArea").hidden=value==="soundcloud";
+ $("#tabs").hidden=value!=="discover";
+ $("#genres").hidden=value!=="discover";
+ if(value==="soundcloud")return;
+ $("#heading").textContent=({
+  discover:"Descubra novos sons",library:"Minha biblioteca",
+  favorites:"Músicas favoritas"
+ })[value];
+ if(value==="discover")doSearch();
+ else render();
+}
+function changeSource(value){
+ source=value;
+ document.querySelectorAll("[data-source]").forEach(b=>
+  b.classList.toggle("active",b.dataset.source===value));
+ doSearch();
+}
+
+/* Player de áudio próprio */
+async function start(list,index){
+ if(index<0||!list[index])return;
+ const entry=list[index];
+ const t=entry.type==="local"?local.find(x=>x.id===entry.id):entry;
+ if(!t){toast("Arquivo não encontrado.");return}
+ if(scWidget)scWidget.pause();
+ audio.pause();
+ audio.removeAttribute("src");audio.load();
+ if(objectURL){URL.revokeObjectURL(objectURL);objectURL=null}
+ current=t;queue=list;position=index;
+ $("#nowTitle").textContent=t.title;
+ $("#nowArtist").textContent=t.artist;
+ $("#nowCover").replaceChildren(cover(t,"nowcover"));
+ $("#duration").textContent=t.type==="radio"?"LIVE":"0:00";
+ $("#elapsed").textContent="0:00";
+ $("#seek").value=0;
+ if(t.type==="local"){
+  objectURL=URL.createObjectURL(t.blob);
+  audio.src=objectURL;
+ }else audio.src=t.url;
+ if("mediaSession" in navigator){
+  navigator.mediaSession.metadata=new MediaMetadata({
+   title:t.title,artist:t.artist,album:"NOCTAVE 6.0",
+   artwork:t.image?[{src:t.image}]:[]
+  });
+ }
+ try{await audio.play()}
+ catch(e){toast("Não foi possível reproduzir este arquivo ou transmissão.");}
+}
+function next(dir){
+ if(queue.length)start(queue,(position+dir+queue.length)%queue.length);
+}
+function playPause(){
+ if(!current){toast("Selecione uma música primeiro.");return}
+ if(audio.paused)audio.play().catch(()=>toast("Reprodução indisponível."));
+ else audio.pause();
+}
+
+/* SoundCloud incorporado oficial */
+function cleanSoundcloudURL(value){
+ try{
+  const u=new URL(value);
+  if(u.protocol!=="https:")return null;
+  if(u.hostname!=="soundcloud.com"&&u.hostname!=="www.soundcloud.com"&&u.hostname!=="on.soundcloud.com")return null;
+  return u.href;
+ }catch(e){return null}
+}
+async function loadSoundCloud(){
+ const url=cleanSoundcloudURL($("#scLink").value.trim());
+ if(!url){toast("Cole um link HTTPS válido do SoundCloud.");return}
+ audio.pause();
+ $("#scInfo").textContent="Carregando player oficial...";
+ try{
+  const request="https://soundcloud.com/oembed?format=json&url="+encodeURIComponent(url);
+  const data=await fetchJSON(request);
+  if(!data.html)throw Error("Conteúdo não incorporável");
+  const doc=new DOMParser().parseFromString(data.html,"text/html");
+  const source=doc.querySelector("iframe")?.getAttribute("src");
+  if(!source)throw Error("Widget não encontrado");
+  const widgetURL=new URL(source,"https://w.soundcloud.com");
+  if(widgetURL.hostname!=="w.soundcloud.com")throw Error("Origem inválida");
+  widgetURL.searchParams.set("auto_play","false");
+  widgetURL.searchParams.set("color","#b68bff");
+  $("#scContainer").replaceChildren();
+  const iframe=el("iframe","sciframe");
+  iframe.src=widgetURL.toString();
+  iframe.title=data.title||"SoundCloud Player";
+  iframe.allow="autoplay";
+  iframe.loading="lazy";
+  $("#scContainer").append(iframe);
+  scWidget=null;
+  $("#scInfo").textContent="Player oficial do SoundCloud carregado.";
+  if(window.SC?.Widget){
+   scWidget=SC.Widget(iframe);
+  }
+ }catch(e){
+  $("#scInfo").textContent="Não foi possível carregar. Abra o link no SoundCloud.";
+  const link=el("a","","Abrir no SoundCloud");
+  link.href=url;link.target="_blank";link.rel="noopener noreferrer";
+  $("#scContainer").replaceChildren(link);
+ }
+}
+function searchSoundCloud(){
+ const q=$("#scSearch").value.trim()||$("#query").value.trim();
+ if(!q){toast("Digite um artista ou música.");return}
+ window.open(
+  "https://soundcloud.com/search/sounds?q="+encodeURIComponent(q),
+  "_blank","noopener,noreferrer"
+ );
+}
+
+/* Eventos */
+document.querySelectorAll("[data-view]").forEach(b=>
+ b.onclick=()=>switchView(b.dataset.view));
+document.querySelectorAll("[data-source]").forEach(b=>
+ b.onclick=()=>changeSource(b.dataset.source));
+GENRES.forEach(g=>{
+ const b=el("button","chip",g);
+ b.onclick=()=>{
+  $("#query").value=g;
+  document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  switchView("discover");
+ };
+ $("#genres").append(b);
 });
-document.querySelectorAll("[data-tab]").forEach(b=>
- b.onclick=()=>setTab(b.dataset.tab));
-$("#closePlayer").onclick=()=>{
- $("#youtubePlayer").src="about:blank";
- $("#playerPanel").hidden=true;
+$("#searchBtn").onclick=()=>{
+ if(view==="soundcloud")searchSoundCloud();
+ else if(view!=="discover")switchView("discover");
+ else doSearch();
 };
-makeGenres();
-search($("#query").value);
+$("#query").onkeydown=e=>{
+ if(e.key==="Enter")$("#searchBtn").click();
+};
+$("#importNav").onclick=()=>$("#files").click();
+$("#importHero").onclick=()=>$("#files").click();
+$("#files").onchange=e=>importSongs([...e.target.files]);
+$("#loadSC").onclick=loadSoundCloud;
+$("#openSC").onclick=searchSoundCloud;
+$("#scLink").onkeydown=e=>{if(e.key==="Enter")loadSoundCloud()};
+$("#play").onclick=playPause;
+$("#next").onclick=()=>next(1);
+$("#prev").onclick=()=>next(-1);
+$("#volume").oninput=e=>audio.volume=Number(e.target.value)/100;
+$("#seek").oninput=e=>{
+ if(Number.isFinite(audio.duration)&&audio.duration>0)
+  audio.currentTime=audio.duration*Number(e.target.value)/100;
+};
+audio.volume=.8;
+audio.onplay=()=>{
+ $("#play").textContent="Ⅱ";
+ if("mediaSession" in navigator)navigator.mediaSession.playbackState="playing";
+};
+audio.onpause=()=>{
+ $("#play").textContent="▶";
+ if("mediaSession" in navigator)navigator.mediaSession.playbackState="paused";
+};
+audio.onloadedmetadata=()=>{
+ $("#duration").textContent=stamp(audio.duration);
+ $("#seek").disabled=!Number.isFinite(audio.duration);
+};
+audio.ontimeupdate=()=>{
+ $("#elapsed").textContent=stamp(audio.currentTime);
+ if(Number.isFinite(audio.duration)&&audio.duration>0)
+  $("#seek").value=audio.currentTime/audio.duration*100;
+};
+audio.onended=()=>{if(current?.type!=="radio")next(1)};
+audio.onerror=()=>{
+ if(current)toast("Esta fonte não pode ser reproduzida no navegador.");
+};
+if("mediaSession" in navigator){
+ const controls={
+  play:()=>audio.play(),pause:()=>audio.pause(),
+  nexttrack:()=>next(1),previoustrack:()=>next(-1),
+  seekto:e=>{
+   if(Number.isFinite(audio.duration))audio.currentTime=e.seekTime;
+  }
+ };
+ Object.entries(controls).forEach(([k,fn])=>{
+  try{navigator.mediaSession.setActionHandler(k,fn)}catch(e){}
+ });
+}
+(async()=>{
+ await initDB();
+ doSearch();
+})();
 </script>
+<script src="https://w.soundcloud.com/player/api.js"></script>
 </body>
 </html>
